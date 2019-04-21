@@ -57,13 +57,7 @@ class UserValidation extends Validation {
      * @returns {Joi.ValidationResult<{ id: string }>}
      * @memberof UserValidation
      */
-    removeUser(
-        body: {
-            id: string
-        }
-    ): Joi.ValidationResult<{
-        id: string
-    }> {
+    removeUser(body: { id: string }): Joi.ValidationResult<{ id: string }> {
         const schema: Joi.Schema = Joi.object().keys({
             id: this.customJoi.objectId().required()
         });

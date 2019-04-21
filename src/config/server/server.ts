@@ -5,7 +5,7 @@ import * as Routes from '../../routes';
 /**
  * @constant {express.Application}
  */
-const app: express.Application = express();
+const app = express();
 
 /**
  * @constructs express.Application Middleware

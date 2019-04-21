@@ -1,18 +1,30 @@
 import * as http from 'http';
+import * as socketIo from 'socket.io';
 import * as serverHandlers from './serverHandlers';
 import app from './server';
 
-const Server: http.Server = http.createServer(app);
+const server = http.createServer(app);
+const port = app.get('port');
+
+/**
+ * Set Socket.io
+ */
+const io = socketIo(server);
+app.set('socketio', io);
+io.on('connect', socket => {
+    console.log('Connected client on port %s.', port);
+    socket.on('disconnect', () => {
+        console.log('Client disconnected');
+    });
+});
 
 /**
  * Binds and listens for connections on the specified host
  */
-Server.listen(app.get('port'));
+server.listen(port, () => { console.log('Running server on port %s', port); });
 
 /**
  * Server Events
  */
-Server.on('error',
-    (error: Error) => serverHandlers.onError(error, app.get('port')));
-Server.on('listening',
-    serverHandlers.onListening.bind(Server));
+server.on('error', error => serverHandlers.onError(error, port));
+server.on('listening', serverHandlers.onListening.bind(server));

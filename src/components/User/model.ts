@@ -63,7 +63,7 @@ export type AuthToken = {
  *      items:
  *        $ref: '#/components/schemas/UserSchema'
  */
-const UserSchema: Schema = new Schema({
+const UserSchema: Schema<any> = new Schema({
     email: {
         type: String,
         unique: true,
@@ -74,7 +74,7 @@ const UserSchema: Schema = new Schema({
     passwordResetExpires: Date,
     tokens: Array,
 }, {
-        collection: 'usermodel',
+        collection: 'user',
         versionKey: false
     }).pre('save', async function (next: NextFunction): Promise<void> {
         const user: any = this; // tslint:disable-line
